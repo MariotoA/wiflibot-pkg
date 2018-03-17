@@ -1,0 +1,29 @@
+<!-- 
+  This launch file starts the STAGE robotic simulator 
+  To see the laser and robot configuration params, see World file
+  Subscribed topics: cmd_vel
+  Published topics:  odom, base_scan, base_pose_ground_truth, image, depth, camera_info
+--> 
+<launch>
+
+  <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find wiflibot)/mapa/house3.png 0.05"/>
+  <!--- Run AMCL -->
+  <node name="amcl" pkg="amcl" type="amcl" > #22.0 19 1
+	<param name="initial_pose_x"  value="22"/>
+           <param name="initial_pose_y"  value="19"/>
+       <param name="initial_pose_w"  value="1"/>
+	<remap from="scan" to="laser_scan" />
+           <param name="odom_frame_id"   value="odom"/>
+           <param name="base_frame_id"   value="base_link"/>
+           <param name="global_frame_id" value="map"/>
+ </node>
+  <include file="$(find missions_pkg)/launch/simbot_urdf.launch"/>
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find wiflibot)/conf/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find wiflibot)/conf/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find wiflibot)/conf/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find wiflibot)/conf/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find wiflibot)/conf/base_local_planner_params.yaml" command="load" />
+  </node>
+</launch>

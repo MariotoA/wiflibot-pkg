@@ -1,0 +1,17 @@
+<!-- 
+  This launch file starts the STAGE robotic simulator 
+  To see the laser and robot configuration params, see World file
+  Subscribed topics: cmd_vel
+  Published topics:  odom, base_scan, base_pose_ground_truth, image, depth, camera_info
+--> 
+
+<launch>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find wiflibot)/conf/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find wiflibot)/conf/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find wiflibot)/conf/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find wiflibot)/conf/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find wiflibot)/conf/base_local_planner_params.yaml" command="load" />
+  </node>
+</launch>

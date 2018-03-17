@@ -1,0 +1,22 @@
+<!-- 
+  This launch file starts the STAGE robotic simulator 
+  To see the laser and robot configuration params, see World file
+  Subscribed topics: cmd_vel
+  Published topics:  odom, base_scan, base_pose_ground_truth, image, depth, camera_info
+--> 
+<launch>
+
+  <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find wiflibot)/mapa/house3.png 0.1"/>
+  <!--- Run AMCL -->
+  <node name="amcl" pkg="amcl" type="amcl" >
+	<param name="initial_pose_x"  value="0"/>
+           <param name="initial_pose_y"  value="0"/>
+       <param name="initial_pose_a"  value="0"/>
+	<remap from="scan" to="laser_scan" />
+	<param name="use_map_topic" value="true"/>
+           <param name="odom_frame_id"   value="odom"/>
+           <param name="base_frame_id"   value="base_link"/>
+           <param name="global_frame_id" value="map"/>
+  </node>
+</launch>
