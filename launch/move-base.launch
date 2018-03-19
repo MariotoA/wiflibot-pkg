@@ -7,7 +7,7 @@
 <launch>
 
   <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find wiflibot)/mapa/house3.png 0.05"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find wiflibot)/mapa/house3.png 0.5"/>
   <!--- Run AMCL -->
   <node name="amcl" pkg="amcl" type="amcl" > #22.0 19 1
 	<param name="initial_pose_x"  value="22"/>
